@@ -1,14 +1,26 @@
-import { map } from "@glimmer/reference";
-import { tracked } from "@glimmer/tracking";
-import Component, { CAPABILITIES } from "@glimmer/component";
-import NativeComponentManager from "./native-component-manager";
+import Component, { CAPABILITIES } from '@glimmer/component';
+import { map } from '@glimmer/reference';
+import { tracked } from '@glimmer/tracking';
+
+import NativeComponentManager from './native-component-manager';
+
 class FirstPage extends Component {
-  title: string = "Welcome to Glimmer";
-  didInsertElement() {
-    this.title = "Heard it both ways";
-  }
+    title: string = 'First Page';
+    didInsertElement() {
+        debugger;
+        this.title = 'Heard it both ways';
+    }
 }
-tracked(FirstPage.prototype, "title");
+tracked(FirstPage.prototype, 'title');
+
+class SecondPage extends Component {
+    title: string = 'Second Page';
+    didInsertElement() {
+        debugger;
+        this.title = 'Heard it both ways';
+    }
+}
+tracked(FirstPage.prototype, 'title');
 
 let manager = new NativeComponentManager();
 // prettier-ignore
@@ -27,16 +39,28 @@ const TABLE = [
           ComponentClass: FirstPage,
           handle: 1
       }
-  }
-  
+    },
+    {
+        name: "SecondPage",
+        manager,
+        ComponentClass: SecondPage,
+        handle: 1,
+        state: {
+            name: "SecondPage",
+            capabilities: CAPABILITIES,
+            ComponentClass: SecondPage,
+            handle: 1
+        }
+    }
+
 ];
 
 export const RUNTIME_RESOLVER: any = {
-  resolve(handle) {
-    if (handle < TABLE.length) {
-      return TABLE[handle];
-    } else {
-      return null;
+    resolve(handle) {
+        if (handle < TABLE.length) {
+            return TABLE[handle];
+        } else {
+            return null;
+        }
     }
-  }
 };
